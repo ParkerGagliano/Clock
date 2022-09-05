@@ -1,6 +1,7 @@
 import time
 import turtle
 
+
 wn=turtle.Screen()
 wn.bgcolor("black")
 wn.setup(width=600, height=600)
@@ -35,32 +36,28 @@ class Clock:
         self.isRunning=True
         #self.draw_clock(pen)
         #wn.update()
+        print('joe')
         while self.isRunning:
-            turtle.onkey(self.keyPress,'space')
+            turtle.onkey(self.pause, "space")
             self.seconds+=1
             self.adjustTime()
-            self.draw_clock(pen)
-            #if self.isRunning:
-            wn.update()
-            pen.clear()
+            self.draw_clock()
+            if self.isRunning:
+                wn.update()
+                pen.clear()
             time.sleep(1)
             print(self.hours, self.minutes, self.seconds)
 
     def pause(self):
         self.isRunning=False
+        self.draw_clock()
+        wn.update()
         
-
-    
     def keyPress(self):
-        self.isPressed=True
-        self.pause()
-        while self.isPressed:
-            #self.addOneSecond()
-            turtle.onkeypress(self.keyRelease, "a")
-
-    def keyRelease(self):
-        self.isPressed=False
-        self.start()
+        if self.isRunning:
+            self.pause()
+        else:
+            self.running=True
 
     def addOneSecond(self):
         time.sleep(.1)
@@ -75,7 +72,7 @@ class Clock:
         for _ in range(seconds):
             self.addOneSecond()
 
-    def draw_clock(self,pen):
+    def draw_clock(self):
         pen.up()
         pen.goto(0, 210)
         pen.setheading(180)
@@ -124,6 +121,5 @@ class Clock:
         pen.rt(angle)
         pen.pendown()
         pen.fd(180)
-
 
 turtle.listen()
