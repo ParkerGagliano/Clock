@@ -1,2 +1,2 @@
 # Clock
-Building my own clock with threading and the time module in python.
+Building my own clock using the time and turtle module in python
