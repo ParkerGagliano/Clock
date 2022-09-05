@@ -1,24 +1,14 @@
 import time
 import turtle
 
-
-wn=turtle.Screen()
-wn.bgcolor("black")
-wn.setup(width=600, height=600)
-wn.title("Analog clock")
-wn.tracer(0)
-
-pen=turtle.Turtle()
-pen.hideturtle()
-pen.speed(0)
-pen.pensize(3)
-
 class Clock:
-    def __init__(self, hours, minutes, seconds):
+    def __init__(self, hours, minutes, seconds, pen, wn):
         self.hours = hours
         self.minutes = minutes
         self.seconds = seconds
         self.isRunning=False
+        self.pen = pen
+        self.wn = wn
 
     def adjustTime(self):
         if self.seconds==60:
@@ -32,40 +22,30 @@ class Clock:
             self.minutes=0
             self.seconds=0
 
+    def render(self):
+        self.pen.clear()
+        self.draw_clock()
+        self.wn.update()
+
     def start(self):
         self.isRunning=True
-        #self.draw_clock(pen)
-        #wn.update()
-        print('joe')
         while self.isRunning:
-            turtle.onkey(self.pause, "space")
             self.seconds+=1
             self.adjustTime()
-            self.draw_clock()
-            if self.isRunning:
-                wn.update()
-                pen.clear()
+            self.render()
             time.sleep(1)
             print(self.hours, self.minutes, self.seconds)
 
     def pause(self):
         self.isRunning=False
-        self.draw_clock()
-        wn.update()
-        
-    def keyPress(self):
-        if self.isRunning:
-            self.pause()
-        else:
-            self.running=True
 
     def addOneSecond(self):
         time.sleep(.1)
         self.seconds+=1
         self.adjustTime()
-        self.draw_clock(pen)
-        wn.update()
-        pen.clear()
+        self.draw_clock(self.pen)
+        self.wn.update()
+        self.pen.clear()
         print(self.hours, self.minutes, self.seconds)
 
     def addTime(self, seconds):
@@ -73,53 +53,51 @@ class Clock:
             self.addOneSecond()
 
     def draw_clock(self):
-        pen.up()
-        pen.goto(0, 210)
-        pen.setheading(180)
-        pen.color('green')
-        pen.pendown()
-        pen.circle(210)
+        self.pen.up()
+        self.pen.goto(0, 210)
+        self.pen.setheading(180)
+        self.pen.color('green')
+        self.pen.pendown()
+        self.pen.circle(210)
 
-        pen.penup()
-        pen.goto(0,0)
-        pen.setheading(90)
+        self.pen.penup()
+        self.pen.goto(0,0)
+        self.pen.setheading(90)
 
         for _ in range(12):
-            pen.fd(190)
-            pen.pendown()
-            pen.fd(20)
-            pen.penup()
-            pen.goto(0,0)
-            pen.rt(30)
+            self.pen.fd(190)
+            self.pen.pendown()
+            self.pen.fd(20)
+            self.pen.penup()
+            self.pen.goto(0,0)
+            self.pen.rt(30)
 
         # hour hand
-        pen.penup()
-        pen.goto(0, 0)
-        pen.color('orange')
-        pen.setheading(90)
-        angle = (self.hours/ 12) * 360
-        pen.rt(angle)
-        pen.pendown()
-        pen.fd(100)
+        self.pen.penup()
+        self.pen.goto(0, 0)
+        self.pen.color('orange')
+        self.pen.setheading(90)
+        self.angle = (self.hours/ 12) * 360
+        self.pen.rt(self.angle)
+        self.pen.pendown()
+        self.pen.fd(100)
 
         # minute hand
-        pen.penup()
-        pen.goto(0, 0)
-        pen.color('red')
-        pen.setheading(90)
-        angle = (self.minutes/ 60) * 360
-        pen.rt(angle)
-        pen.pendown()
-        pen.fd(140)
+        self.pen.penup()
+        self.pen.goto(0, 0)
+        self.pen.color('red')
+        self.pen.setheading(90)
+        self.angle = (self.minutes/ 60) * 360
+        self.pen.rt(self.angle)
+        self.pen.pendown()
+        self.pen.fd(140)
 
         # second hand
-        pen.penup()
-        pen.goto(0, 0)
-        pen.color('red')
-        pen.setheading(90)
-        angle = (self.seconds/ 60) * 360
-        pen.rt(angle)
-        pen.pendown()
-        pen.fd(180)
-
-turtle.listen()
+        self.pen.penup()
+        self.pen.goto(0, 0)
+        self.pen.color('orange')
+        self.pen.setheading(90)
+        self.angle = (self.seconds/ 60) * 360
+        self.pen.rt(self.angle)
+        self.pen.pendown()
+        self.pen.fd(180)
