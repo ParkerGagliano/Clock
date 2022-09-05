@@ -39,19 +39,6 @@ class Clock:
     def pause(self):
         self.isRunning=False
 
-    def addOneSecond(self):
-        time.sleep(.1)
-        self.seconds+=1
-        self.adjustTime()
-        self.draw_clock(self.pen)
-        self.wn.update()
-        self.pen.clear()
-        print(self.hours, self.minutes, self.seconds)
-
-    def addTime(self, seconds):
-        for _ in range(seconds):
-            self.addOneSecond()
-
     def draw_clock(self):
         self.pen.up()
         self.pen.goto(0, 210)
